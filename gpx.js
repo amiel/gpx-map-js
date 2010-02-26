@@ -47,11 +47,11 @@ $(document).ready(function() {
 			
 			
 			
-			window.console.log(current_gpx);
+			// window.console.log(current_gpx);
 			render_map();
 		}, 'text');
 		return false;
-	});
+	}).filter(':first').click();
 	
 	// $.get('data', null, function(data) { // get index of data directory
 	// 	var r = new RegExp("href=\"(\\w+\\.gpx)\"", "g");
@@ -61,6 +61,5 @@ $(document).ready(function() {
 	// 		);
 	// 	}
 	// }, 'text');
-	$('#options a:first').click();
 	
 });
