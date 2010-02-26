@@ -6,7 +6,6 @@ GMap2.prototype.fit = function(bounds){
 $(document).ready(function() {
 	var current_gpx = {},
 		map = new GMap2(document.getElementById("map_canvas"));
-	map.setUIToDefault();
 	
 	function render_map() {
 		var sw = new GLatLng(current_gpx.min_lat, current_gpx.min_lon),
@@ -18,6 +17,7 @@ $(document).ready(function() {
 			poly = new GPolyline(current_gpx.points, color, weight, opa);
 			
 		map.fit(bounds);
+		map.setUIToDefault();
 
 		map.addOverlay(poly);
 	}
