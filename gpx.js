@@ -1,35 +1,50 @@
+GMap2.prototype.fit = function(bounds){
+	this.setCenter(bounds.getCenter(), this.getBoundsZoomLevel(bounds));
+};
+
+
 $(document).ready(function() {
 	var current_gpx = {},
 		map = new GMap2(document.getElementById("map_canvas"));
+	map.setUIToDefault();
 	
 	function render_map() {
-		map.setCenter(new GLatLng(current_gpx.max_lat, current_gpx.min_lon), 13);
-		map.setUIToDefault();
+		var sw = new GLatLng(current_gpx.min_lat, current_gpx.min_lon),
+			ne = new GLatLng(current_gpx.max_lat, current_gpx.max_lon),
+			bounds = new GLatLngBounds(sw, ne),
+			weight = 2,
+			opa = 0.8,
+			color = '#ff0000',
+			poly = new GPolyline(current_gpx.points, color, weight, opa);
+			
+		map.fit(bounds);
+
+		map.addOverlay(poly);
 	}
 	
 	
 	$('#options a').click(function() {
 		$.get('data/' + $(this).text(), null, function(data) {
 			var xml = $(data);
-			current_gpx.name = xml.find('name').text();
+			current_gpx.name = xml.find('name').html();
 			current_gpx.points = [];
+			current_gpx.point_attributes = {};
 			xml.find('trk trkseg trkpt').each(function() {
-				var $t = $(this), p = {
-					lat: $t.attr('lat'),
-					lon: $t.attr('lon'),
-					time: $t.find('time').text(),
-					elevation: $t.find('ele').text()
-				};
+				var $t = $(this), p = new GLatLng(parseFloat($t.attr('lat'), 10), parseFloat($t.attr('lon'), 10));
 				current_gpx.points.push(p);
-				current_gpx.max_lat = current_gpx.max_lat < p.lat ? p.lat : current_gpx.max_lat;
-				current_gpx.max_lon = current_gpx.max_lon < p.lon ? p.lon : current_gpx.max_lon;
-				current_gpx.min_lat = current_gpx.min_lat < p.lat ? current_gpx.min_lat : p.lat;
-				current_gpx.min_lon = current_gpx.min_lon < p.lon ? current_gpx.min_lon : p.lon;
+				current_gpx.point_attributes[p] = {
+					time: $t.find('time').text(),
+					elevation: parseFloat($t.find('ele').text(), 10)
+				};
+				current_gpx.max_lat = current_gpx.max_lat > p.lat() ? current_gpx.max_lat : p.lat();
+				current_gpx.max_lon = current_gpx.max_lon > p.lng() ? current_gpx.max_lon : p.lng();
+				current_gpx.min_lat = current_gpx.min_lat < p.lat() ? current_gpx.min_lat : p.lat();
+				current_gpx.min_lon = current_gpx.min_lon < p.lng() ? current_gpx.min_lon : p.lng();
 			});
 			
 			
 			
-			// window.console.log(current_gpx);
+			window.console.log(current_gpx);
 			render_map();
 		}, 'text');
 		return false;
