@@ -11,7 +11,7 @@ $(document).ready(function() {
 		var sw = new GLatLng(current_gpx.min_lat, current_gpx.min_lon),
 			ne = new GLatLng(current_gpx.max_lat, current_gpx.max_lon),
 			bounds = new GLatLngBounds(sw, ne),
-			weight = 2,
+			weight = 3,
 			opa = 0.8,
 			color = '#ff0000',
 			poly = new GPolyline(current_gpx.points, color, weight, opa);
@@ -24,6 +24,9 @@ $(document).ready(function() {
 	
 	
 	$('#options a').click(function() {
+		$('#options li').removeClass('current');
+		$(this).parent().addClass('current');
+		
 		$.get('data/' + $(this).text(), null, function(data) {
 			var xml = $(data);
 			current_gpx.name = xml.find('name').html();
@@ -58,4 +61,6 @@ $(document).ready(function() {
 	// 		);
 	// 	}
 	// }, 'text');
+	$('#options a:first').click();
+	
 });
