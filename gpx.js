@@ -37,6 +37,13 @@ $(document).ready(function() {
 	
 	
 	$('#options a').click(function() {
+		
+		if (current_gpx.lines) {
+			for (var i in current_gpx.lines) {
+				map.removeOverlay(current_gpx.lines[i]);
+			}
+		}
+		
 		$('#options li').removeClass('current');
 		$(this).parent().addClass('current');
 		
