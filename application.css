@@ -1,6 +1,6 @@
 #map_canvas{ width: 700px; height: 500px; }
 #main{}
 #options{ float: right; list-style-type: none; }
-#options li a{ padding: 0.5em 1em; }
+#options li a{ padding: 0.5em 1em; display: block; }
 #options li.current a{ background-color: #ccc; }
 #options li a:hover{ background-color: #aaa; }
