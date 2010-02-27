@@ -53,6 +53,7 @@ $(document).ready(function() {
 			current_gpx.points = [];
 			current_gpx.point_attributes = {};
 			current_gpx.lines = [];
+			current_gpx.max_lat = current_gpx.max_lon = current_gpx.min_lat = current_gpx.min_lon = undefined;
 			xml.find('trk trkseg trkpt').each(function() {
 				var $t = $(this),
 					p = new GLatLng(parseFloat($t.attr('lat'), 10), parseFloat($t.attr('lon'), 10)),
