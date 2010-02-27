@@ -56,7 +56,7 @@ $(document).ready(function() {
 					last_point_index = current_gpx.points.length - 1,
 					last_p = current_gpx.points[last_point_index],
 					last_pa = current_gpx.point_attributes[last_p],
-					line, distance, time_difference;
+					line, distance, time_difference, color_value, red, blue;
 					
 				current_gpx.points.push(p);
 				current_gpx.point_attributes[p] = point_attributes;
@@ -67,7 +67,13 @@ $(document).ready(function() {
 					distance = last_p.distanceFrom(p);
 					time_difference = (Date.parseISO8601(point_attributes.time) - Date.parseISO8601(last_pa.time)) / 1000;
 					// window.console.log("meters per sec", distance, time_difference, distance / time_difference);
-					color = "#" + Math.round(distance / time_difference * 15).toString(16) + "0000";
+					
+					color_value = Math.round(distance / time_difference * 17);
+					red = Math.min(255, color_value);
+					blue = Math.max(0, 100 - color_value);
+					// blue = "00";
+					
+					color = "#" + decimalToHex(red) + "00" + decimalToHex(blue);
 					// color = "#" + decimalToHex(Math.round(distance / time_difference * 1500), 6);
 					// window.console.log(color);
 					line = new GPolyline([last_p, p], color, weight, opa);
