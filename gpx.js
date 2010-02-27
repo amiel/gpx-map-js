@@ -2,6 +2,16 @@ GMap2.prototype.fit = function(bounds){
 	this.setCenter(bounds.getCenter(), this.getBoundsZoomLevel(bounds));
 };
 
+function decimalToHex(d, padding) {
+    var hex = Number(d).toString(16);
+    padding = typeof (padding) === "undefined" || padding === null ? padding = 2 : padding;
+
+    while (hex.length < padding) {
+        hex = "0" + hex;
+    }
+
+    return hex;
+}
 
 $(document).ready(function() {
 	var current_gpx = {},
@@ -57,8 +67,9 @@ $(document).ready(function() {
 					distance = last_p.distanceFrom(p);
 					time_difference = (Date.parseISO8601(point_attributes.time) - Date.parseISO8601(last_pa.time)) / 1000;
 					// window.console.log("meters per sec", distance, time_difference, distance / time_difference);
-					
 					color = "#" + Math.round(distance / time_difference * 15).toString(16) + "0000";
+					// color = "#" + decimalToHex(Math.round(distance / time_difference * 1500), 6);
+					// window.console.log(color);
 					line = new GPolyline([last_p, p], color, weight, opa);
 					current_gpx.lines.push(line);
 				}
