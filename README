@@ -1,4 +1,4 @@
-parses a gpx file, draws a polyline on google maps color coded to speed: more red == moar faster
+parses a gpx file, draws a polyline on google maps colour coded to speed: more red == moar faster
 Two gpx files are included, and you can test this out at: http://amiel.github.com/gpx-map-js
 
 I'm looking for a better algorithm for translating the speed to a color if anyone is interested in helping with that.
