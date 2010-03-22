@@ -28,6 +28,7 @@ $(document).ready(function() {
 			
 		map.fit(bounds);
 		map.setUIToDefault();
+		map.setMapType(G_PHYSICAL_MAP);
 
 		for (var i in current_gpx.lines) {
 			// window.console.log(i, current_gpx.lines[i]);
